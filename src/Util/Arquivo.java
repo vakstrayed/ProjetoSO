@@ -21,6 +21,11 @@ public class Arquivo {
 	}
 
 	public static Arquivo getInstance() {
+
+		/**
+		 * Singleton
+		 */
+
 		if (instance == null) {
 			instance = new Arquivo();
 		}
@@ -28,10 +33,20 @@ public class Arquivo {
 	}
 
 	public ArrayList<String> getInstrucoes() {
+
+		/**
+		 * Retorna o array de instrucoes
+		 */
+
 		return this.instrucoes;
 	}
 
 	public void lerArquivo() {
+
+		/**
+		 * Método responsável por ler o arquivo e salvar as linhas referentes ao
+		 * processo em um array chamado instrucoes
+		 */
 
 		BufferedReader leitor = null;
 
@@ -60,6 +75,12 @@ public class Arquivo {
 
 	public ArrayList<Processo> getListProcessos() {
 
+		/**
+		 * Método responsável por traduzir o array de instrucoes em um array do
+		 * tipo Processo
+		 */
+
+		// Variáveis básicas necessárias para ajudar no auxílio da tradução
 		String element = null;
 		ArrayList<Processo> ListaProcessos = new ArrayList<>();
 		Processo genericProcesso = new Processo();
@@ -68,69 +89,100 @@ public class Arquivo {
 		List<String> list = null;
 		String AuxIO = null;
 
+		// chamada do método lerArquivo() para preencher o array instrucoes com
+		// o que for lido do arquivo
 		lerArquivo();
 
+		// para as intruções lidas do arquivo, faça:
 		for (byte k = 0; k < instrucoes.size(); k++) {
+
+			// element recebe a instrução apontada por k
+			// Alt1 se transforma em um vetor da partição de element, usando " "
+			// como ponto de partição
 			element = instrucoes.get(k);
 			String Alt1[] = element.split(Pattern.quote(" "));
+			
+			//verifica se contém 6 elementos dentro do vetor, se não retorna null
+			if (Alt1.length == 6) {
+				
+				//para cada elemento do vetor faça
+				for (byte j = 0; j < Alt1.length; j++) {
 
-			for (byte j = 0; j < Alt1.length; j++) {
+					switch (j) {
 
-				switch (j) {
+					case 0:
 
-				case 0:
+						tempoChegada = Integer.valueOf(Alt1[j]);
 
-					tempoChegada = Integer.valueOf(Alt1[j]);
+						break;
+					case 1:
 
-					break;
-				case 1:
+						tempoComputacao = Integer.valueOf(Alt1[j]);
 
-					tempoComputacao = Integer.valueOf(Alt1[j]);
+						break;
+					case 2:
+						
+						//AuxIO recebe o elemento para auxiliar no tratamento do mesmo
+						AuxIO = Alt1[j];
+						//verifica se a quantidade de caracteres é maior que dois (apenas a existencia dos colchetes) 
+						if (AuxIO.length() > 2) {
+							//list recebe array string da partição dos elementos por ";"
+							list = Arrays.asList(AuxIO.substring(1, AuxIO.length() - 1).split(";"));
+						
+							//converter os elementos da lista em um array de inteiros
+							for (byte i = 0; i < list.size(); i++) {
+								temposIO.add(Integer.parseInt(list.get(i)));
+							}
+						} else {
+							temposIO = null;
+						}
 
-					break;
-				case 2:
+						break;
+					case 3:
 
-					AuxIO = Alt1[j];
-					list = Arrays.asList(AuxIO.substring(1, AuxIO.length() - 1).split(";"));
+						prioridade = Integer.valueOf(Alt1[j]);
 
-					for (byte i = 0; i < list.size(); i++) {
-						temposIO.add(Integer.parseInt(list.get(i)));
+						break;
+					case 4:
+
+						periodo = Integer.valueOf(Alt1[j]);
+
+						break;
+					case 5:
+
+						deadline = Integer.valueOf(Alt1[j]);
+
+						break;
+
 					}
 
-					break;
-				case 3:
-
-					prioridade = Integer.valueOf(Alt1[j]);
-
-					break;
-				case 4:
-
-					periodo = Integer.valueOf(Alt1[j]);
-
-					break;
-				case 5:
-
-					deadline = Integer.valueOf(Alt1[j]);
-
-					break;
-
 				}
-
+				
+				//associa os campos tratados em um processo genérico
+				genericProcesso = new Processo(k, tempoChegada, tempoComputacao, temposIO, prioridade, periodo,
+						deadline);
+				//adiciona o processo generico a lista de processos
+				ListaProcessos.add(genericProcesso);
+				
+				//reseta algumas informações
+				list = null;
+				temposIO = null;
+				
+			}else{
+				return null;
 			}
-
-			genericProcesso = new Processo(k, tempoChegada, tempoComputacao, temposIO, prioridade, periodo, deadline);
-			ListaProcessos.add(genericProcesso);
-
-			list = null;
-			temposIO = null;
-
 		}
-
+		
+		//retorna a lista de processos 
 		return ListaProcessos;
 
 	}
 
 	public void arquivoSaida(String instrucao, String registradores) {
+		
+		/**
+		 * Método responsável por escrever os dados no arquivo de saída
+		 */
 
 		try {
 			if (new File("saida.txt").exists() == false) {

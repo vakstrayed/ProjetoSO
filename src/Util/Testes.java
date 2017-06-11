@@ -10,7 +10,6 @@ public class Testes {
 	public static void main(String[] args){
 		String g = "0 20 [3;2;3;4] 1 0 0";
 		String p = "[3;2;3;4]";
-		
 		List<String> list = Arrays.asList(p.substring(1, p.length() - 1).split(";"));
 		
 		ArrayList<Integer> numbers = new ArrayList<Integer>();

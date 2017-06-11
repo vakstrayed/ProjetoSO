@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class Processo {
 	
+	/**
+	 * Classe básica Processo 
+	 * Representando os campos passados nos requisitos do projeto
+	 */
+	
 	private int ID;
 	private int TempoChegada;
 	private int TempoComputacao;
