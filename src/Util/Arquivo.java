@@ -67,7 +67,6 @@ public class Arquivo {
 		ArrayList<Integer> temposIO = null;
 		List<String> list = null;
 		String AuxIO = null;
-		ArrayList<Integer> numbers = new ArrayList<Integer>();
 
 		lerArquivo();
 
@@ -95,7 +94,7 @@ public class Arquivo {
 					list = Arrays.asList(AuxIO.substring(1, AuxIO.length() - 1).split(";"));
 
 					for (byte i = 0; i < list.size(); i++) {
-						numbers.add(Integer.parseInt(list.get(i)));
+						temposIO.add(Integer.parseInt(list.get(i)));
 					}
 
 					break;
@@ -119,15 +118,14 @@ public class Arquivo {
 
 			}
 
-			genericProcesso = new Processo(k, tempoChegada, tempoComputacao, numbers, prioridade, periodo, deadline);
+			genericProcesso = new Processo(k, tempoChegada, tempoComputacao, temposIO, prioridade, periodo, deadline);
 			ListaProcessos.add(genericProcesso);
 
-			numbers = null;
 			list = null;
 			temposIO = null;
 
 		}
-		
+
 		return ListaProcessos;
 
 	}
