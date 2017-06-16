@@ -198,7 +198,7 @@ public class Arquivo {
 
 	}
 
-	public void arquivoSaida(String instrucao, String registradores) {
+	public void arquivoSaida(String texto) {
 
 		/**
 		 * Método responsável por escrever os dados no arquivo de saída
@@ -213,8 +213,7 @@ public class Arquivo {
 
 			escritor = new BufferedWriter(new FileWriter("saida.txt"));
 
-			escritor.append("\r\n" + instrucao + "\r\n");
-			escritor.append(registradores + "\r\n");
+			escritor.append("\r\n" + texto + "\r\n");
 			escritor.flush();
 
 		} catch (Exception e) {
