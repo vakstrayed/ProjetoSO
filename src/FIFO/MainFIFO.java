@@ -129,6 +129,7 @@ public class MainFIFO {
 		this.Prontos.add(b); // manda o processo para o final da fila de prontos
 
 	}
+	
 
 	public void ThroughPUT() {
 		
