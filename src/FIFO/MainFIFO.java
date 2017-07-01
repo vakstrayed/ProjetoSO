@@ -61,6 +61,7 @@ public class MainFIFO {
 					Prontos.remove(0); // Processo foi retirado da fila de
 										// pronto e a fila é atualizada
 					chave = false;
+					executando = true;
 
 				} else { // fim da execução
 					fim = true;
@@ -85,6 +86,9 @@ public class MainFIFO {
 						p.setBloqPoint(PC); // o tempo em PC cujo foi encontrado
 											// o bloqueio no processo
 						bloqueado(p); // passa pra bloqueado
+						executando = false; // faz sair do loop de execução
+						chave = true; // faz solicitar novo processo a fila de
+										// pronto
 
 					} else if (p.getTempoComputacao() == 0) { // acaba tempo de
 																// computação
