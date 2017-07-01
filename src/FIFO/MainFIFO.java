@@ -10,10 +10,12 @@ public class MainFIFO {
 
 	private ArrayList<ProcessoSaida> ProcessosConcluidos = new ArrayList<>();
 	private ArrayList<Processo> Prontos = Arquivo.getInstance().getListProcessos();
+	private float ThroughPut = 0;
 
 	public void FIFO() {
 
 		this.executando();
+		this.ThroughPUT();
 
 	}
 
@@ -77,7 +79,8 @@ public class MainFIFO {
 														// computação
 						PC++; // conta PC
 
-					} else if (p.containsTempoIO(PC) && (p.getTempoComputacao() > 0)) { // chamada i.o
+					} else if (p.containsTempoIO(PC) && (p.getTempoComputacao() > 0)) { // chamada
+																						// i.o
 
 						p.setBloqPoint(PC); // o tempo em PC cujo foi encontrado
 											// o bloqueio no processo
@@ -125,6 +128,32 @@ public class MainFIFO {
 		b.setTemposIO(temposIO); // seta o array de temposIO no processo
 		this.Prontos.add(b); // manda o processo para o final da fila de prontos
 
+	}
+
+	public void ThroughPUT() {
+		
+		/**
+		 * Calcula o Throughput de fifo
+		 * Soma dos tempos de conclusão de cada processo
+		 * dividido pelo número de processos concluídos
+		 */
+
+		int aux1 = 0;
+		int aux2 = 0;
+
+		for (ProcessoSaida p : this.ProcessosConcluidos) {
+			aux1 = aux1 + p.getTempoResposta();
+		}
+		aux2 = this.ProcessosConcluidos.size();
+
+		this.ThroughPut = aux1 / aux2;
+
+	}
+
+	public float getFIFOThroughPUT() {
+		
+		return this.ThroughPut;
+		
 	}
 
 }
