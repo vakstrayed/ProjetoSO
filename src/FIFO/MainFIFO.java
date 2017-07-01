@@ -77,7 +77,7 @@ public class MainFIFO {
 														// computação
 						PC++; // conta PC
 
-					} else if (p.containsTempoIO(PC)) { // chamada i.o
+					} else if (p.containsTempoIO(PC) && (p.getTempoComputacao() > 0)) { // chamada i.o
 
 						p.setBloqPoint(PC); // o tempo em PC cujo foi encontrado
 											// o bloqueio no processo
