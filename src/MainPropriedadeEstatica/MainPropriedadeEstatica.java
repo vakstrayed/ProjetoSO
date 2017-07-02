@@ -99,15 +99,14 @@ public class MainPropriedadeEstatica {
 
 					} else if (timeSlice == 0) {
 
-						processo.setStopPoint(PC); // tempo em que foi concluido
-						encerrado(processo); // constrói o processo final e
-												// finaliza o
-						// processo
+						 
+						 
 						executandoProcesso = false; // faz sair do loop de
 						// execução
 						tblExecutarVazia = true; // faz solicitar novo processo
 													// a fila de
 						// pronto
+						tblProntos.add(processo);
 
 					} else if (processo.getTempoComputacao() == 0) { // acaba
 																		// tempo
