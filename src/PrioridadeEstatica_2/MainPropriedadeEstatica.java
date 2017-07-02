@@ -1,4 +1,4 @@
-package MainPropriedadeEstatica;
+package PrioridadeEstatica_2;
 
 import java.util.ArrayList;
 
@@ -16,7 +16,7 @@ public class MainPropriedadeEstatica {
 	public void MainPropriedadeEstatica() {
 
 		this.executar();
-		 this.ThroughPUT();
+		this.ThroughPUT();
 
 	}
 
@@ -192,7 +192,7 @@ public class MainPropriedadeEstatica {
 
 	}
 
-	public float getFIFOThroughPUT() {
+	public float getPrioEstatic2ThroughPUT() {
 
 		return this.ThroughPut;
 
