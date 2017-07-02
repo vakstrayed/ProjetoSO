@@ -16,7 +16,7 @@ public class MainPropriedadeEstatica {
 	public void MainPropriedadeEstatica() {
 
 		this.executar();
-		// this.ThroughPUT();
+		 this.ThroughPUT();
 
 	}
 
