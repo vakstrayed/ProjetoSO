@@ -50,7 +50,7 @@ public class MainPropriedadeEstatica {
 				if (!tblProntos.isEmpty()) {
 
 					// procurando processo com maior prioridade
-					processo = tblProntos.stream().max((p1, p2) -> Integer.compare(p1.getPeriodo(), p2.getPeriodo()))
+					processo = tblProntos.stream().max((p1, p2) -> Integer.compare(p1.getPrioridade(), p2.getPrioridade()))
 							.get();
 
 					// removendo da tabela de prontos
@@ -97,7 +97,7 @@ public class MainPropriedadeEstatica {
 													// a fila de
 						// pronto
 
-					} else if (timeSlice == 0) {
+					} else if ((timeSlice == 0) && (processo.getTempoComputacao() > 0)) {
 
 						 
 						 
@@ -175,7 +175,7 @@ public class MainPropriedadeEstatica {
 	public void ThroughPUT() {
 
 		/**
-		 * Calcula o Throughput de fifo Soma dos tempos de conclusão de cada
+		 * Calcula o Throughput de PropriedadeEstatica Soma dos tempos de conclusão de cada
 		 * processo dividido pelo número de processos concluídos
 		 */
 
@@ -191,7 +191,7 @@ public class MainPropriedadeEstatica {
 
 	}
 
-	public float getFIFOThroughPUT() {
+	public float getPropriedadeEstaticaThroughPUT() {
 
 		return this.ThroughPut;
 
