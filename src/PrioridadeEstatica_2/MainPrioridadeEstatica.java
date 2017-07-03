@@ -1,4 +1,4 @@
-package MainPropriedadeEstatica;
+package PrioridadeEstatica_2;
 
 import java.util.ArrayList;
 
@@ -6,17 +6,17 @@ import Util.Arquivo;
 import Util.Processo;
 import Util.ProcessoSaida;
 
-public class MainPropriedadeEstatica {
+public class MainPrioridadeEstatica {
 
 	private ArrayList<ProcessoSaida> tblProcessosConcluidos = new ArrayList<>();
 	private ArrayList<Processo> tblProntos = Arquivo.getInstance().getListProcessos();
 	private float ThroughPut = 0;
 	private int timeSlice = 2;
 
-	public void MainPropriedadeEstatica() {
+	public void MainPrioridadeEstatica() {
 
 		this.executar();
-		 this.ThroughPUT();
+		this.ThroughPUT();
 
 	}
 
@@ -84,7 +84,7 @@ public class MainPropriedadeEstatica {
 						PC++; // conta PC
 						timeSlice--;
 
-					} else if (processo.containsTempoIO(PC) && (processo.getTempoComputacao() > 0)) { // chamada
+					} else if (processo.containsTempoIO(PC) && (processo.getTempoComputacao() > 0) && (timeSlice > 0)) { // chamada
 						// i.o
 
 						processo.setBloqPoint(PC); // o tempo em PC cujo foi
@@ -97,7 +97,7 @@ public class MainPropriedadeEstatica {
 													// a fila de
 						// pronto
 
-					} else if ((timeSlice == 0) && (processo.getTempoComputacao() > 0)) {
+					} else if ((timeSlice == 0) && (processo.getTempoComputacao() > 0)) { // oia aq esse carai feito alipio 
 
 						 
 						 
@@ -190,11 +190,15 @@ public class MainPropriedadeEstatica {
 		this.ThroughPut = aux1 / aux2;
 
 	}
-
+/*
+<<<<<<< HEAD:src/MainPropriedadeEstatica/MainPropriedadeEstatica.java
 	public float getPropriedadeEstaticaThroughPUT() {
+=======
+	public float getPrioEstatic2ThroughPUT() {
+>>>>>>> 5f2765248f3192c0af0381e06ccd8db8f9ae6369:src/PrioridadeEstatica_2/MainPrioridadeEstatica.java
 
 		return this.ThroughPut;
 
 	}
-
+*/
 }

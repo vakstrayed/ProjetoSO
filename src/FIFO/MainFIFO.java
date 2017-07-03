@@ -57,7 +57,11 @@ public class MainFIFO {
 							// pronto
 
 				if (!Prontos.isEmpty()) { // enquanto prontos não estiver vazio
-					p = Prontos.get(0);
+					p = new Processo(Prontos.get(0).getID(), Prontos.get(0).getTempoChegada(),
+							Prontos.get(0).getTempoComputacao(), Prontos.get(0).getTemposIO(),
+							Prontos.get(0).getPrioridade(), Prontos.get(0).getPeriodo(), Prontos.get(0).getDeadline());
+					p.setBloqPoint(Prontos.get(0).getBloqPoint());
+					p.setDeadline(Prontos.get(0).getDeadline());
 					Prontos.remove(0); // Processo foi retirado da fila de
 										// pronto e a fila é atualizada
 					chave = false;
@@ -133,14 +137,12 @@ public class MainFIFO {
 		this.Prontos.add(b); // manda o processo para o final da fila de prontos
 
 	}
-	
 
 	public void ThroughPUT() {
-		
+
 		/**
-		 * Calcula o Throughput de fifo
-		 * Soma dos tempos de conclusão de cada processo
-		 * dividido pelo número de processos concluídos
+		 * Calcula o Throughput de fifo Soma dos tempos de conclusão de cada
+		 * processo dividido pelo número de processos concluídos
 		 */
 
 		int aux1 = 0;
@@ -156,9 +158,9 @@ public class MainFIFO {
 	}
 
 	public float getFIFOThroughPUT() {
-		
+
 		return this.ThroughPut;
-		
+
 	}
 
 }
