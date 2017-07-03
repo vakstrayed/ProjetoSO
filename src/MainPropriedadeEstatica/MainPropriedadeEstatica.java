@@ -176,7 +176,7 @@ public class MainPropriedadeEstatica {
 
 		/**
 		 * Calcula o Throughput de PropriedadeEstatica Soma dos tempos de conclusão de cada
-		 * processo dividido pelo número de processos concluídos
+		 * processo dividido pelo número de processos concluídos!!!!
 		 */
 
 		int aux1 = 0;
