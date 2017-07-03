@@ -8,19 +8,35 @@ import Util.ProcessoSaida;
 
 public class MainPrioridadeEstatica {
 
+	private static MainPrioridadeEstatica instance = null;
 	private ArrayList<ProcessoSaida> tblProcessosConcluidos = new ArrayList<>();
 	private ArrayList<Processo> tblProntos = Arquivo.getInstance().getListProcessos();
 	private float ThroughPut = 0;
 	private int timeSlice = 2;
 
-	public void MainPrioridadeEstatica() {
+	private MainPrioridadeEstatica() {
+	}
+
+	public static MainPrioridadeEstatica getInstance() {
+
+		/**
+		 * Singleton
+		 */
+
+		if (instance == null) {
+			instance = new MainPrioridadeEstatica();
+		}
+		return instance;
+	}
+
+	public void PrioridadeEstatica() {
 
 		this.executar();
 		this.ThroughPUT();
-		
+
 		Arquivo.getInstance().arquivoSaida("");
 		Arquivo.getInstance().arquivoSaida("Prioridade Estática 2");
-		Arquivo.getInstance().arquivoSaida("ThroughPut: "+this.getPrioEstaticThroughPUT());
+		Arquivo.getInstance().arquivoSaida("ThroughPut: " + this.getPrioEstaticThroughPUT());
 		for (ProcessoSaida processoSaida : tblProcessosConcluidos) {
 			Arquivo.getInstance().arquivoSaida(processoSaida.toString());
 		}
@@ -34,20 +50,27 @@ public class MainPrioridadeEstatica {
 	 */
 	public void pronto(int x) {
 
-		for (Processo p : tblProntos) {
-			p.setTempoPronto(x);
+		for (int i = 0; i < tblProntos.size(); i++) {
+			tblProntos.get(i).setTempoPronto(x);
+			// System.out.println("i:"+i+","+
+			// Prontos.get(i).getTempoPronto().toString());
 		}
 
 	}
 
 	public void executar() {
+		
+		System.out.println("entrou executando");
 
 		boolean tblExecutarVazia = true;
 		boolean fimTblProntos = false;
 		boolean executandoProcesso = true;
 		Processo processo = new Processo();
+		Processo p = new Processo();
 		int PC = 0;
 		int aux = 0;
+		
+		this.pronto(PC); // conta pronto no array de prontos
 
 		while (fimTblProntos == false) {
 			// siginifica que tem que pegar processo da tabela de pronto
@@ -57,8 +80,20 @@ public class MainPrioridadeEstatica {
 				if (!tblProntos.isEmpty()) {
 
 					// procurando processo com maior prioridade
-					processo = tblProntos.stream()
+					p = tblProntos.stream()
 							.max((p1, p2) -> Integer.compare(p1.getPrioridade(), p2.getPrioridade())).get();
+					
+					processo = new Processo(p.getID(), p.getTempoChegada(),
+							p.getTempoComputacao(), p.getTemposIO(),
+							p.getPrioridade(), p.getPeriodo(), p.getDeadline());
+					processo.setBloqPoint(p.getBloqPoint());
+					processo.setDeadline(p.getDeadline());
+					processo.setTPRONT(p.getTempoPronto());
+					if(p.TempoEstadoBloqueado() == -1){
+						processo.setTBLOQ(p.getTemposIO().size());
+					}else{
+						processo.setTBLOQ(p.TempoEstadoBloqueado());
+					}
 
 					// removendo da tabela de prontos
 					for (int i = 0; i < tblProntos.size(); i++) {
@@ -82,13 +117,14 @@ public class MainPrioridadeEstatica {
 					// executando...
 					if ((processo.containsTempoIO(PC) == false) && (processo.getTempoComputacao() > 0)
 							&& (timeSlice > 0)) {
-
-						this.pronto(PC); // conta pronto no array de prontos
+						
 						aux = processo.getTempoComputacao();
-						processo.setTempoComputacao(aux--); // decrementa tempo
+						aux--;
+						processo.setTempoComputacao(aux); // decrementa tempo
 															// de computação
 
 						PC++; // conta PC
+						this.pronto(PC); // conta pronto no array de prontos
 						timeSlice--;
 
 					} else if (processo.containsTempoIO(PC) && (processo.getTempoComputacao() > 0) && (timeSlice > 0)) { // chamada
@@ -145,7 +181,7 @@ public class MainPrioridadeEstatica {
 
 	public void encerrado(Processo p) {
 
-		int tPRONTO = p.TempoEstadoPronto(); // tempo total no estado pronto
+		int tPRONTO = p.getTempoPronto().size(); // tempo total no estado pronto
 		int tIO = p.TempoEstadoBloqueado(); // tempo total IO - bloqueado
 		int tRESPOSTA = p.getStopPoint(); // tempo em que o PC finaliza o
 											// processo
@@ -154,6 +190,7 @@ public class MainPrioridadeEstatica {
 		ProcessoSaida pSAIDA = new ProcessoSaida(ID, tRESPOSTA, tIO, tPRONTO);
 
 		this.tblProcessosConcluidos.add(pSAIDA);
+		System.out.println("encerrou " + pSAIDA.getID());
 
 	}
 
