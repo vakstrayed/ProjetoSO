@@ -17,6 +17,13 @@ public class MainPrioridadeEstatica {
 
 		this.executar();
 		this.ThroughPUT();
+		
+		Arquivo.getInstance().arquivoSaida("");
+		Arquivo.getInstance().arquivoSaida("Prioridade Estática 2");
+		Arquivo.getInstance().arquivoSaida("ThroughPut: "+this.getPrioEstaticThroughPUT());
+		for (ProcessoSaida processoSaida : tblProcessosConcluidos) {
+			Arquivo.getInstance().arquivoSaida(processoSaida.toString());
+		}
 
 	}
 
@@ -50,8 +57,8 @@ public class MainPrioridadeEstatica {
 				if (!tblProntos.isEmpty()) {
 
 					// procurando processo com maior prioridade
-					processo = tblProntos.stream().max((p1, p2) -> Integer.compare(p1.getPrioridade(), p2.getPrioridade()))
-							.get();
+					processo = tblProntos.stream()
+							.max((p1, p2) -> Integer.compare(p1.getPrioridade(), p2.getPrioridade())).get();
 
 					// removendo da tabela de prontos
 					for (int i = 0; i < tblProntos.size(); i++) {
@@ -97,10 +104,13 @@ public class MainPrioridadeEstatica {
 													// a fila de
 						// pronto
 
-					} else if ((timeSlice == 0) && (processo.getTempoComputacao() > 0)) { // oia aq esse carai feito alipio 
+					} else if ((timeSlice == 0) && (processo.getTempoComputacao() > 0)) { // oia
+																							// aq
+																							// esse
+																							// carai
+																							// feito
+																							// alipio
 
-						 
-						 
 						executandoProcesso = false; // faz sair do loop de
 						// execução
 						tblExecutarVazia = true; // faz solicitar novo processo
@@ -175,8 +185,9 @@ public class MainPrioridadeEstatica {
 	public void ThroughPUT() {
 
 		/**
-		 * Calcula o Throughput de PropriedadeEstatica Soma dos tempos de conclusão de cada
-		 * processo dividido pelo número de processos concluídos!!!!
+		 * Calcula o Throughput de PropriedadeEstatica Soma dos tempos de
+		 * conclusão de cada processo dividido pelo número de processos
+		 * concluídos!!!!
 		 */
 
 		int aux1 = 0;
@@ -190,15 +201,11 @@ public class MainPrioridadeEstatica {
 		this.ThroughPut = aux1 / aux2;
 
 	}
-/*
-<<<<<<< HEAD:src/MainPropriedadeEstatica/MainPropriedadeEstatica.java
-	public float getPropriedadeEstaticaThroughPUT() {
-=======
-	public float getPrioEstatic2ThroughPUT() {
->>>>>>> 5f2765248f3192c0af0381e06ccd8db8f9ae6369:src/PrioridadeEstatica_2/MainPrioridadeEstatica.java
+
+	public float getPrioEstaticThroughPUT() {
 
 		return this.ThroughPut;
 
 	}
-*/
+
 }

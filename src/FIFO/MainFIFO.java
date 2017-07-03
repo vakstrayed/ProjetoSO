@@ -7,30 +7,58 @@ import Util.Processo;
 import Util.ProcessoSaida;
 
 public class MainFIFO {
-
+	
+	private static MainFIFO instance = null;
 	private ArrayList<ProcessoSaida> ProcessosConcluidos = new ArrayList<>();
 	private ArrayList<Processo> Prontos = Arquivo.getInstance().getListProcessos();
 	private float ThroughPut = 0;
 
+	private MainFIFO() {
+	}
+
+	public static MainFIFO getInstance() {
+
+		/**
+		 * Singleton
+		 */
+
+		if (instance == null) {
+			instance = new MainFIFO();
+		}
+		return instance;
+	}
+	
 	public void FIFO() {
 
 		this.executando();
 		this.ThroughPUT();
+		
+		Arquivo.getInstance().arquivoSaida("");
+		Arquivo.getInstance().arquivoSaida("FIFO");
+		Arquivo.getInstance().arquivoSaida("ThroughPut: "+this.getFIFOThroughPUT());
+		for (ProcessoSaida processoSaida : ProcessosConcluidos) {
+			Arquivo.getInstance().arquivoSaida(processoSaida.toString());
+		}
+		
 
 	}
 
 	public void pronto(int x) {
-
-		for (Processo p : Prontos) { // conta o tempo de pronto para todos os
-										// processos no array
-			p.setTempoPronto(x);
+		//System.out.println("entrou pronto");
+		
+		for(int i =0; i< Prontos.size(); i++){
+			Prontos.get(i).setTempoPronto(x);
+			//System.out.println("i:"+i+","+ Prontos.get(i).getTempoPronto().toString());
 		}
+		
+		
+		
 
 	}
 
 	public void encerrado(Processo p) {
-
-		int tPRONTO = p.TempoEstadoPronto(); // tempo total no estado pronto
+		
+		int tPRONTO = p.getTempoPronto().size(); // tempo total no estado pronto
 		int tIO = p.TempoEstadoBloqueado(); // tempo total IO - bloqueado
 		int tRESPOSTA = p.getStopPoint(); // tempo em que o PC finaliza o
 											// processo
@@ -39,10 +67,13 @@ public class MainFIFO {
 		ProcessoSaida pSAIDA = new ProcessoSaida(ID, tRESPOSTA, tIO, tPRONTO);
 
 		this.ProcessosConcluidos.add(pSAIDA);
+		System.out.println("encerrou "+pSAIDA.getID());
 
 	}
 
 	public void executando() {
+		
+		System.out.println("entrou executando");
 
 		boolean chave = true;
 		boolean fim = false;
@@ -50,6 +81,8 @@ public class MainFIFO {
 		Processo p = new Processo();
 		int PC = 0;
 		int aux0 = 0;
+		
+		this.pronto(PC); // conta pronto no array de prontos
 
 		while (fim == false) {
 
@@ -62,6 +95,12 @@ public class MainFIFO {
 							Prontos.get(0).getPrioridade(), Prontos.get(0).getPeriodo(), Prontos.get(0).getDeadline());
 					p.setBloqPoint(Prontos.get(0).getBloqPoint());
 					p.setDeadline(Prontos.get(0).getDeadline());
+					p.setTPRONT(Prontos.get(0).getTempoPronto());
+					if(Prontos.get(0).TempoEstadoBloqueado() == -1){
+						p.setTBLOQ(Prontos.get(0).getTemposIO().size());
+					}else{
+						p.setTBLOQ(Prontos.get(0).TempoEstadoBloqueado());
+					}
 					Prontos.remove(0); // Processo foi retirado da fila de
 										// pronto e a fila é atualizada
 					chave = false;
@@ -78,12 +117,13 @@ public class MainFIFO {
 
 					if ((p.containsTempoIO(PC) == false) && (p.getTempoComputacao() > 0)) { // executando...
 
-						this.pronto(PC); // conta pronto no array de prontos
 						aux0 = p.getTempoComputacao();
-						p.setTempoComputacao(aux0--); // decrementa tempo de
+						aux0--;
+						p.setTempoComputacao(aux0); // decrementa tempo de
 														// computação
 						PC++; // conta PC
-
+						this.pronto(PC); // conta pronto no array de prontos
+						
 					} else if (p.containsTempoIO(PC) && (p.getTempoComputacao() > 0)) { // chamada
 																						// i.o
 
@@ -115,6 +155,8 @@ public class MainFIFO {
 	}
 
 	public void bloqueado(Processo b) {
+		
+		System.out.println("entrou bloqueado");
 
 		int num = b.getBloqPoint(); // pega o ponto de parada do pc
 		ArrayList<Integer> temposIO = b.getTemposIO(); // pega os tempos de i/o

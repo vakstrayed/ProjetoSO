@@ -13,15 +13,16 @@ public class Processo {
 	private int ID;
 	private int TempoChegada;
 	private int TempoComputacao;
-	private ArrayList<Integer> TemposIO;
+	private ArrayList<Integer> TemposIO = new ArrayList<>();
 	private int Prioridade;
 	private int Periodo;
 	private int Deadline;
 	
 	//variáveis extras
-	private ArrayList<Integer> TempoPronto; //tempos no estado pronto
+	private ArrayList<Integer> TempoPronto = new ArrayList<>(); //tempos no estado pronto
 	private int StopPoint; //tempo de finalização do processo no pc
 	private int BloqPoint; //tempo de bloqueio do processo no pc
+	private int TBLOQ = -1; //tempo estado bloqueado
 
 	public Processo() {
 
@@ -43,27 +44,27 @@ public class Processo {
 	}
 
 	public void setID(int iD) {
-		ID = iD;
+		this.ID = iD;
 	}
 
 	public int getTempoChegada() {
-		return TempoChegada;
+		return this.TempoChegada;
 	}
 
 	public void setTempoChegada(int tempoChegada) {
-		TempoChegada = tempoChegada;
+		this.TempoChegada = tempoChegada;
 	}
 
 	public int getTempoComputacao() {
-		return TempoComputacao;
+		return this.TempoComputacao;
 	}
 
 	public void setTempoComputacao(int tempoComputacao) {
-		TempoComputacao = tempoComputacao;
+		this.TempoComputacao = tempoComputacao;
 	}
 
 	public ArrayList<Integer> getTemposIO() {
-		return TemposIO;
+		return this.TemposIO;
 	}
 	
 	public boolean containsTempoIO(int x){
@@ -71,15 +72,15 @@ public class Processo {
 	}
 
 	public void setTemposIO(ArrayList<Integer> temposIO) {
-		TemposIO = temposIO;
+		this.TemposIO = temposIO;
 	}
 
 	public int getPrioridade() {
-		return Prioridade;
+		return this.Prioridade;
 	}
 
 	public void setPrioridade(int prioridade) {
-		Prioridade = prioridade;
+		this.Prioridade = prioridade;
 	}
 
 	public int getPeriodo() {
@@ -87,47 +88,55 @@ public class Processo {
 	}
 
 	public void setPeriodo(int periodo) {
-		Periodo = periodo;
+		this.Periodo = periodo;
 	}
 
 	public int getDeadline() {
-		return Deadline;
+		return this.Deadline;
 	}
 
 	public void setDeadline(int deadline) {
-		Deadline = deadline;
+		this.Deadline = deadline;
 	}
 
-	public int getTempoPronto() {
-		return TempoPronto.size();
+	public ArrayList<Integer> getTempoPronto() {
+		return this.TempoPronto;
 	}
 
 	public void setTempoPronto(int i) {
 		this.TempoPronto.add(i);
 	}
+	
+	public void setTPRONT(ArrayList<Integer> p){
+		this.TempoPronto = p;
+	}
 
 	public int getStopPoint() {
-		return StopPoint;
+		return this.StopPoint;
 	}
 
 	public void setStopPoint(int stopPoint) {
-		StopPoint = stopPoint;
+		this.StopPoint = stopPoint;
 	}
 
 	public int getBloqPoint() {
-		return BloqPoint;
+		return this.BloqPoint;
 	}
 
 	public void setBloqPoint(int bloqPoint) {
-		BloqPoint = bloqPoint;
+		this.BloqPoint = bloqPoint;
 	}
 	
 	public int TempoEstadoPronto(){
-		return TempoPronto.size();
+		return this.TempoPronto.size();
+	}
+	
+	public void setTBLOQ(int x){
+		this.TBLOQ = x;
 	}
 	
 	public int TempoEstadoBloqueado(){
-		return TemposIO.size();
+		return this.TBLOQ;
 	}
 
 }

@@ -18,6 +18,20 @@ public class Arquivo {
 	private ArrayList<String> instrucoes = new ArrayList<String>();
 
 	private Arquivo() {
+		try {
+			if (new File("saida.txt").exists() == false) {
+
+				new File("saida.txt").createNewFile();
+				
+				escritor = new BufferedWriter(new FileWriter("saida.txt"));
+
+			}else{
+				escritor = new BufferedWriter(new FileWriter("saida.txt"));
+			}
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	public static Arquivo getInstance() {
@@ -85,7 +99,7 @@ public class Arquivo {
 		ArrayList<Processo> ListaProcessos = new ArrayList<>();
 		Processo genericProcesso = new Processo();
 		int tempoChegada = 0, tempoComputacao = 0, prioridade = 0, periodo = 0, deadline = 0;
-		ArrayList<Integer> temposIO = null;
+		ArrayList<Integer> temposIO = new ArrayList<>();
 		List<String> list = null;
 		String AuxIO = null;
 
@@ -95,7 +109,7 @@ public class Arquivo {
 
 		// para as intruções lidas do arquivo, faça:
 		for (byte k = 0; k < instrucoes.size(); k++) {
-
+			
 			// element recebe a instrução apontada por k
 			// Alt1 se transforma em um vetor da partição de element, usando " "
 			// como ponto de partição
@@ -126,6 +140,7 @@ public class Arquivo {
 						// AuxIO recebe o elemento para auxiliar no tratamento
 						// do mesmo
 						AuxIO = Alt1[j];
+	
 						// verifica se a quantidade de caracteres é maior que
 						// dois (apenas a existencia dos colchetes)
 						if (AuxIO.length() > 2) {
@@ -147,16 +162,16 @@ public class Arquivo {
 								num2 = auxNum.substring(ponto + 1);
 								x = Integer.valueOf(num1);
 								y = Integer.valueOf(num2);
-
+								
 								for (int z = x; z <= y; z++) {
 									temposIO.add(z);
 								}
 							}
 
-						} else {
-							temposIO = null;
-						}
-
+						} /*else {
+							temposIO = new ArrayList<>();
+						}*/
+						
 						break;
 					case 3:
 
@@ -181,12 +196,13 @@ public class Arquivo {
 				// associa os campos tratados em um processo genérico
 				genericProcesso = new Processo(k, tempoChegada, tempoComputacao, temposIO, prioridade, periodo,
 						deadline);
+				genericProcesso.setTBLOQ(temposIO.size());
 				// adiciona o processo generico a lista de processos
 				ListaProcessos.add(genericProcesso);
 
 				// reseta algumas informações
 				list = null;
-				temposIO = null;
+				temposIO.clear();
 
 			} else {
 				return null;
@@ -205,13 +221,9 @@ public class Arquivo {
 		 */
 
 		try {
-			if (new File("saida.txt").exists() == false) {
+			
 
-				new File("saida.txt").createNewFile();
-
-			}
-
-			escritor = new BufferedWriter(new FileWriter("saida.txt"));
+			
 
 			escritor.append("\r\n" + texto + "\r\n");
 			escritor.flush();

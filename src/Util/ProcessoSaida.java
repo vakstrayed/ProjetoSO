@@ -52,8 +52,8 @@ public class ProcessoSaida {
 
 	@Override
 	public String toString() {
-		return "ProcessoSaida [ID=" + ID + ", TempoResposta=" + TempoResposta + ", TempoTotalIO=" + TempoTotalIO
-				+ ", TempoPronto=" + TempoPronto + "]";
+		return "ID: " + ID + ", Tempo Resposta: " + TempoResposta + ", Tempo Total IO: " + TempoTotalIO
+				+ ", Tempo Estado Pronto: " + TempoPronto;
 	}
 
 }
