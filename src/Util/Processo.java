@@ -13,16 +13,18 @@ public class Processo {
 	private int ID;
 	private int TempoChegada;
 	private int TempoComputacao;
+	private int TempoComputacaoNoPeriodo;
 	private ArrayList<Integer> TemposIO = new ArrayList<>();
 	private int Prioridade;
 	private int Periodo;
 	private int Deadline;
-	
-	//variáveis extras
-	private ArrayList<Integer> TempoPronto = new ArrayList<>(); //tempos no estado pronto
-	private int StopPoint; //tempo de finalização do processo no pc
-	private int BloqPoint; //tempo de bloqueio do processo no pc
-	private int TBLOQ = -1; //tempo estado bloqueado
+
+	// variáveis extras
+	private ArrayList<Integer> TempoPronto = new ArrayList<>(); // tempos no
+																// estado pronto
+	private int StopPoint; // tempo de finalização do processo no pc
+	private int BloqPoint; // tempo de bloqueio do processo no pc
+	private int TBLOQ = -1; // tempo estado bloqueado
 
 	public Processo() {
 
@@ -33,6 +35,7 @@ public class Processo {
 		ID = iD;
 		TempoChegada = tempoChegada;
 		TempoComputacao = tempoComputacao;
+		TempoComputacaoNoPeriodo = tempoComputacao;
 		TemposIO = temposIO;
 		Prioridade = prioridade;
 		Periodo = periodo;
@@ -63,11 +66,19 @@ public class Processo {
 		this.TempoComputacao = tempoComputacao;
 	}
 
+	public int getTempoComputacaoNoPeriodo() {
+		return this.TempoComputacaoNoPeriodo;
+	}
+
+	public void setTempoComputacaoNoPeriodo(int TempoComputacaoNoPeriodo) {
+		this.TempoComputacaoNoPeriodo = TempoComputacaoNoPeriodo;
+	}
+
 	public ArrayList<Integer> getTemposIO() {
 		return this.TemposIO;
 	}
-	
-	public boolean containsTempoIO(int x){
+
+	public boolean containsTempoIO(int x) {
 		return this.TemposIO.contains(x);
 	}
 
@@ -106,8 +117,8 @@ public class Processo {
 	public void setTempoPronto(int i) {
 		this.TempoPronto.add(i);
 	}
-	
-	public void setTPRONT(ArrayList<Integer> p){
+
+	public void setTPRONT(ArrayList<Integer> p) {
 		this.TempoPronto = p;
 	}
 
@@ -126,16 +137,16 @@ public class Processo {
 	public void setBloqPoint(int bloqPoint) {
 		this.BloqPoint = bloqPoint;
 	}
-	
-	public int TempoEstadoPronto(){
+
+	public int TempoEstadoPronto() {
 		return this.TempoPronto.size();
 	}
-	
-	public void setTBLOQ(int x){
+
+	public void setTBLOQ(int x) {
 		this.TBLOQ = x;
 	}
-	
-	public int TempoEstadoBloqueado(){
+
+	public int TempoEstadoBloqueado() {
 		return this.TBLOQ;
 	}
 
